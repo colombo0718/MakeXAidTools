@@ -3,6 +3,9 @@
 <head>
     <title>Starter Battle</title>
     <style>
+        body {
+            font-family: "Courier New", monospace;
+        }
         /* CSS样式用于布局 */
         /* body {
             display: flex;
@@ -31,9 +34,11 @@
 <body>
     <h1>Starter 對陣表產生器</h1>
     <label for="numberInput">請輸入隊伍總數：</label>
-    <input type="number" id="numberInput" value="10" oninput="generateTextInputs()">
+    <input type="number" id="numberInput" value="10">
+    <br>
+    <button onclick="generateTextInputs()">產出隊伍框</button>
     <div id="textInputsContainer"></div>
-    <button onclick="getValues()">获取文本框的值</button>
+    <button onclick="getValues()">產出對陣表</button>
     <p id="output"></p>
 
     <table>
@@ -50,26 +55,33 @@
     </table>
 
     <script>
+        var teamsName=[]
         function generateTextInputs() {
             var inputElement = document.getElementById("numberInput");
             var inputValue = parseInt(inputElement.value);
 
             var textInputsContainer = document.getElementById("textInputsContainer");
             textInputsContainer.innerHTML = "";
+            teamsName=[]
 
             for (var i = 0; i < inputValue; i++) {
                 var label = document.createElement("label");
                 label.textContent = String.fromCharCode(65 + i) + ".";
-                label.style.fontFamily = "Courier New, monospace"
+                // label.style.fontFamily = "Courier New, monospace"
+
                 var input = document.createElement("input");
                 input.type = "text";
                 input.placeholder = String.fromCharCode(97 + i) + "隊"
                 input.value = String.fromCharCode(97 + i) + "隊"
                 input.style.fontFamily = "Courier New, monospace"
+
                 textInputsContainer.appendChild(label);
                 textInputsContainer.appendChild(input);
                 textInputsContainer.appendChild(document.createElement("br"));
+
+                teamsName.push(input.value)
             }
+            // console.log(teamsName)
         }
         generateTextInputs()
 
@@ -79,13 +91,88 @@
             var textInputs = document.querySelectorAll("#textInputsContainer input[type='text']");
             var output = document.getElementById("output");
 
-            var values = [];
+            teamsName = [];
 
             textInputs.forEach(function(input) {
-                values.push(input.value);
+                teamsName.push(input.value);
             });
 
-            output.innerHTML = "文本输入框的值为: " + values.join(", ");
+            var table = document.querySelector("table tbody");
+            table.innerHTML = "";
+
+            var inputElement = document.getElementById("numberInput");
+            var inputValue = parseInt(inputElement.value);
+            var startTime = "09:00";
+
+            for (var i = 0; i < inputValue/2; i++) {
+                var timeCell = document.createElement("td");
+                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+
+                var teamsCell = document.createElement("td");
+                teamsCell.textContent = teamsName[(2 * i )% teamsName.length];;
+                var teamsCell2 = document.createElement("td");
+                teamsCell2.textContent = teamsName[(2 * i + 1)% teamsName.length];;
+
+                var row = document.createElement("tr");
+                row.appendChild(timeCell);
+                row.appendChild(teamsCell);
+                row.appendChild(teamsCell2);
+                table.appendChild(row);
+
+                startTime = addMinutes(startTime, 15);
+            }
+
+            for (var i = 1; i < inputValue/2+2; i++) {
+                var timeCell = document.createElement("td");
+                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+
+                var teamsCell = document.createElement("td");
+                teamsCell.textContent = teamsName[(2 * i -1)% teamsName.length];;
+                var teamsCell2 = document.createElement("td");
+                teamsCell2.textContent = teamsName[(2 * i )% teamsName.length];;
+
+                var row = document.createElement("tr");
+                row.appendChild(timeCell);
+                row.appendChild(teamsCell);
+                row.appendChild(teamsCell2);
+                table.appendChild(row);
+
+                startTime = addMinutes(startTime, 15);
+            }
+            // part 2
+            for (var i = 0; i < inputValue; i++) {
+                var timeCell = document.createElement("td");
+                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+
+                var teamsCell = document.createElement("td");
+                teamsCell.textContent = teamsName[i % teamsName.length];;
+                var teamsCell2 = document.createElement("td");
+                teamsCell2.textContent = teamsName[(i+2)% teamsName.length];;
+
+                var row = document.createElement("tr");
+                row.appendChild(timeCell);
+                row.appendChild(teamsCell);
+                row.appendChild(teamsCell2);
+                table.appendChild(row);
+
+                startTime = addMinutes(startTime, 15);
+            }
+        }
+
+        // 辅助函数：将时间增加指定分钟数
+        function addMinutes(time, minutes) {
+            var parts = time.split(":");
+            var hours = parseInt(parts[0]);
+            var mins = parseInt(parts[1]);
+
+            mins += minutes;
+            hours += Math.floor(mins / 60);
+            mins %= 60;
+
+            var hoursStr = hours.toString().padStart(2, "0");
+            var minsStr = mins.toString().padStart(2, "0");
+
+            return hoursStr + ":" + minsStr;
         }
 
     </script>
