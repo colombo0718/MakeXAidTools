@@ -104,32 +104,50 @@
             var inputValue = parseInt(inputElement.value);
             var startTime = "09:00";
 
-            for (var i = 0; i < inputValue/2; i++) {
+            // for (var i = 0; i < inputValue/2; i++) {
+            //     var timeCell = document.createElement("td");
+            //     timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+
+            //     var teamsCell = document.createElement("td");
+            //     teamsCell.textContent = teamsName[(2 * i )% teamsName.length];;
+            //     var teamsCell2 = document.createElement("td");
+            //     teamsCell2.textContent = teamsName[(2 * i + 1)% teamsName.length];;
+
+            //     var row = document.createElement("tr");
+            //     row.appendChild(timeCell);
+            //     row.appendChild(teamsCell);
+            //     row.appendChild(teamsCell2);
+            //     table.appendChild(row);
+
+            //     startTime = addMinutes(startTime, 15);
+            // }
+
+            // for (var i = 1; i < inputValue/2+1; i++) {
+            //     var timeCell = document.createElement("td");
+            //     timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+
+            //     var teamsCell = document.createElement("td");
+            //     teamsCell.textContent = teamsName[(2 * i -1)% teamsName.length];;
+            //     var teamsCell2 = document.createElement("td");
+            //     teamsCell2.textContent = teamsName[(2 * i )% teamsName.length];;
+
+            //     var row = document.createElement("tr");
+            //     row.appendChild(timeCell);
+            //     row.appendChild(teamsCell);
+            //     row.appendChild(teamsCell2);
+            //     table.appendChild(row);
+
+            //     startTime = addMinutes(startTime, 15);
+            // }
+            // part 1
+            for (var i = 0; i < inputValue; i++) {
                 var timeCell = document.createElement("td");
                 timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
                 var teamsCell = document.createElement("td");
-                teamsCell.textContent = teamsName[(2 * i )% teamsName.length];;
+                teamsCell.textContent = teamsName[i % teamsName.length];;
                 var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(2 * i + 1)% teamsName.length];;
-
-                var row = document.createElement("tr");
-                row.appendChild(timeCell);
-                row.appendChild(teamsCell);
-                row.appendChild(teamsCell2);
-                table.appendChild(row);
-
-                startTime = addMinutes(startTime, 15);
-            }
-
-            for (var i = 1; i < inputValue/2+2; i++) {
-                var timeCell = document.createElement("td");
-                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
-
-                var teamsCell = document.createElement("td");
-                teamsCell.textContent = teamsName[(2 * i -1)% teamsName.length];;
-                var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(2 * i )% teamsName.length];;
+                teamsCell2.textContent = teamsName[(i+2)% teamsName.length];;
 
                 var row = document.createElement("tr");
                 row.appendChild(timeCell);
@@ -147,7 +165,7 @@
                 var teamsCell = document.createElement("td");
                 teamsCell.textContent = teamsName[i % teamsName.length];;
                 var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(i+2)% teamsName.length];;
+                teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
 
                 var row = document.createElement("tr");
                 row.appendChild(timeCell);
