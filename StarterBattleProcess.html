@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Starter Battle</title>
+    <style>
+        /* CSS样式用于布局 */
+        /* body {
+            display: flex;
+            justify-content: space-between;
+        } */
+
+        /* #textInputsContainer {
+            flex-grow: 1; 
+            padding: 10px;
+        } */
+
+        table {
+            border-collapse: collapse;
+            margin-right: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        /* th, td {
+            padding: 5px;
+        } */
+    </style>
+</head>
+<body>
+    <h1>Starter 對陣表產生器</h1>
+    <label for="numberInput">請輸入隊伍總數：</label>
+    <input type="number" id="numberInput" value="10" oninput="generateTextInputs()">
+    <div id="textInputsContainer"></div>
+    <button onclick="getValues()">获取文本框的值</button>
+    <p id="output"></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>時間</th>
+                <th>紅方</th>
+                <th>藍方</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 这里可以添加表格内容 -->
+        </tbody>
+    </table>
+
+    <script>
+        function generateTextInputs() {
+            var inputElement = document.getElementById("numberInput");
+            var inputValue = parseInt(inputElement.value);
+
+            var textInputsContainer = document.getElementById("textInputsContainer");
+            textInputsContainer.innerHTML = "";
+
+            for (var i = 0; i < inputValue; i++) {
+                var label = document.createElement("label");
+                label.textContent = String.fromCharCode(65 + i) + ".";
+                label.style.fontFamily = "Courier New, monospace"
+                var input = document.createElement("input");
+                input.type = "text";
+                input.placeholder = String.fromCharCode(97 + i) + "隊"
+                input.value = String.fromCharCode(97 + i) + "隊"
+                input.style.fontFamily = "Courier New, monospace"
+                textInputsContainer.appendChild(label);
+                textInputsContainer.appendChild(input);
+                textInputsContainer.appendChild(document.createElement("br"));
+            }
+        }
+        generateTextInputs()
+
+        console.log(textInputsContainer)
+
+        function getValues() {
+            var textInputs = document.querySelectorAll("#textInputsContainer input[type='text']");
+            var output = document.getElementById("output");
+
+            var values = [];
+
+            textInputs.forEach(function(input) {
+                values.push(input.value);
+            });
+
+            output.innerHTML = "文本输入框的值为: " + values.join(", ");
+        }
+
+    </script>
+</body>
