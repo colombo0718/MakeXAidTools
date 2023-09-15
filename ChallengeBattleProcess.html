@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Starter Battle</title>
+    <title>Challenge Battle</title>
     <style>
         body {
             font-family: "Courier New", monospace;
@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-    <h2>Starter資格賽 對陣表產生器</h2>
+    <h2>Challenge資格賽 對陣表產生器</h2>
     <label for="numberInput">一.請輸入隊伍總數：</label><br>
     <input type="number" id="numberInput" value="10">
     <br>
@@ -48,8 +48,10 @@
         <thead>
             <tr>
                 <th>時間</th>
-                <th>紅方</th>
-                <th>藍方</th>
+                <th>紅左</th>
+                <th>紅右</th>
+                <th>藍左</th>
+                <th>藍右</th>
             </tr>
         </thead>
         <tbody>
@@ -111,37 +113,43 @@
                 var timeCell = document.createElement("td");
                 timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
-                var teamsCell = document.createElement("td");
-                teamsCell.textContent = teamsName[i % teamsName.length];;
+                var teamsCell1 = document.createElement("td");
+                teamsCell1.textContent = teamsName[i % teamsName.length];;
                 var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(i+2)% teamsName.length];;
+                teamsCell2.textContent = teamsName[(i+6)% teamsName.length];;
+                var teamsCell3 = document.createElement("td");
+                teamsCell3.textContent = teamsName[(i+2)% teamsName.length];;
+                var teamsCell4 = document.createElement("td");
+                teamsCell4.textContent = teamsName[(i+4)% teamsName.length];;
 
                 var row = document.createElement("tr");
                 row.appendChild(timeCell);
-                row.appendChild(teamsCell);
+                row.appendChild(teamsCell1);
                 row.appendChild(teamsCell2);
+                row.appendChild(teamsCell3);
+                row.appendChild(teamsCell4);
                 table.appendChild(row);
 
                 startTime = addMinutes(startTime, 15);
             }
-            // part 2
-            for (var i = 0; i < inputValue; i++) {
-                var timeCell = document.createElement("td");
-                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+            // // part 2
+            // for (var i = 0; i < inputValue; i++) {
+            //     var timeCell = document.createElement("td");
+            //     timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
-                var teamsCell = document.createElement("td");
-                teamsCell.textContent = teamsName[i % teamsName.length];;
-                var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
+            //     var teamsCell = document.createElement("td");
+            //     teamsCell.textContent = teamsName[i % teamsName.length];;
+            //     var teamsCell2 = document.createElement("td");
+            //     teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
 
-                var row = document.createElement("tr");
-                row.appendChild(timeCell);
-                row.appendChild(teamsCell);
-                row.appendChild(teamsCell2);
-                table.appendChild(row);
+            //     var row = document.createElement("tr");
+            //     row.appendChild(timeCell);
+            //     row.appendChild(teamsCell);
+            //     row.appendChild(teamsCell2);
+            //     table.appendChild(row);
 
-                startTime = addMinutes(startTime, 15);
-            }
+            //     startTime = addMinutes(startTime, 15);
+            // }
         }
 
         // 辅助函数：将时间增加指定分钟数
