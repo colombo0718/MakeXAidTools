@@ -48,10 +48,13 @@
         <thead>
             <tr>
                 <th>時間</th>
-                <th>紅左</th>
-                <th>紅右</th>
-                <th>藍左</th>
-                <th>藍右</th>
+                <th style="background-color: #ffaaaa;">紅左</th>
+                <th style="background-color: #ffaaaa;">紅右</th>
+                
+                <th style="background-color: #aaaaff;">藍左</th>
+                <th style="background-color: #aaaaff;">藍右</th>
+                <th style="background-color: #ffaaaa;">紅方得分</th>
+                <th style="background-color: #aaaaff;">藍方得分</th>
             </tr>
         </thead>
         <tbody>
@@ -114,13 +117,34 @@
                 timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
                 var teamsCell1 = document.createElement("td");
+                teamsCell1.style.backgroundColor = '#ffdddd';
                 teamsCell1.textContent = teamsName[i % teamsName.length];;
                 var teamsCell2 = document.createElement("td");
+                teamsCell2.style.backgroundColor = '#ffdddd';
                 teamsCell2.textContent = teamsName[(i+7)% teamsName.length];;
+                
+
                 var teamsCell3 = document.createElement("td");
+                teamsCell3.style.backgroundColor = '#ddddff';
                 teamsCell3.textContent = teamsName[(i+2)% teamsName.length];;
                 var teamsCell4 = document.createElement("td");
+                teamsCell4.style.backgroundColor = '#ddddff';
                 teamsCell4.textContent = teamsName[(i+4)% teamsName.length];;
+
+                var teamsCell5 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.className="score a"
+                inputElement.id='R'+i
+                inputElement.style.width = "80px";
+                inputElement.style.backgroundColor = '#ffdddd';
+                teamsCell5.appendChild(inputElement);
+                var teamsCell6 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.className="score b"
+                inputElement.id='B'+i
+                inputElement.style.width = "80px";
+                inputElement.style.backgroundColor = '#ddddff';
+                teamsCell6.appendChild(inputElement);
 
                 var row = document.createElement("tr");
                 row.appendChild(timeCell);
@@ -128,28 +152,13 @@
                 row.appendChild(teamsCell2);
                 row.appendChild(teamsCell3);
                 row.appendChild(teamsCell4);
+                row.appendChild(teamsCell5);
+                row.appendChild(teamsCell6);
                 table.appendChild(row);
 
                 startTime = addMinutes(startTime, 15);
             }
-            // // part 2
-            // for (var i = 0; i < inputValue; i++) {
-            //     var timeCell = document.createElement("td");
-            //     timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
-            //     var teamsCell = document.createElement("td");
-            //     teamsCell.textContent = teamsName[i % teamsName.length];;
-            //     var teamsCell2 = document.createElement("td");
-            //     teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
-
-            //     var row = document.createElement("tr");
-            //     row.appendChild(timeCell);
-            //     row.appendChild(teamsCell);
-            //     row.appendChild(teamsCell2);
-            //     table.appendChild(row);
-
-            //     startTime = addMinutes(startTime, 15);
-            // }
         }
 
         // 辅助函数：将时间增加指定分钟数
@@ -167,6 +176,22 @@
 
             return hoursStr + ":" + minsStr;
         }
+
+        // 添加粘贴事件监听器
+        document.addEventListener('paste', function (e) {
+            var scores = document.querySelectorAll('.score');
+            console.log(scores)
+            // 取消默认粘贴行为
+            e.preventDefault();
+
+            // 获取剪贴板的内容
+            var clipboardData = e.clipboardData || window.clipboardData;
+            var pastedData = clipboardData.getData('text');
+            console.log(pastedData)
+            var rows = pastedData.split('\n');
+
+            
+        });
 
     </script>
 </body>
