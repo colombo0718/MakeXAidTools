@@ -79,6 +79,7 @@
                 <th>總淨勝分</th>
                 <th>總得分</th>
                 <th>單場最高分</th>
+                <th>名次</th>
             </tr>
         </thead>
         <tbody id="table2">
@@ -245,8 +246,9 @@
                     var game=scoresBox[j].id[1]
                     var antiColor=color=="R"?"B":"R"
                     var enemyScore=document.querySelector("#"+antiColor+game).value
-                                        
-                    if(mineScore>enemyScore){
+                    console.log(mineScore,enemyScore)                    
+                    if(parseInt(mineScore)>parseInt(enemyScore)){
+                        console.log('win')
                         scoreCell.style.backgroundColor = '#ffff00';
                         winLose+=3
                         winSum+=parseInt(mineScore)
@@ -254,7 +256,7 @@
                         scoreCell.style.backgroundColor = '#ddffdd';
                         winLose+=1
                     }
-                    if(mineScore>maxScore){maxScore=mineScore}
+                    if(parseInt(mineScore)>parseInt(maxScore)){maxScore=mineScore}
                     allSum+=parseInt(mineScore)
                     
                     row.appendChild( scoreCell);
