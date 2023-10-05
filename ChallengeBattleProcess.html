@@ -236,6 +236,7 @@
                 var winLose=0
                 var winSum=0
                 var allSum=0
+                var maxScore=0
                 for(var j = 0; j < 4; j++){
                     var mineScore=scoresBox[j].value
                     var scoreCell = document.createElement("td");
@@ -244,9 +245,7 @@
                     var game=scoresBox[j].id[1]
                     var antiColor=color=="R"?"B":"R"
                     var enemyScore=document.querySelector("#"+antiColor+game).value
-                    
-
-                    
+                                        
                     if(mineScore>enemyScore){
                         scoreCell.style.backgroundColor = '#ffff00';
                         winLose+=3
@@ -255,24 +254,26 @@
                         scoreCell.style.backgroundColor = '#ddffdd';
                         winLose+=1
                     }
+                    if(mineScore>maxScore){maxScore=mineScore}
                     allSum+=parseInt(mineScore)
                     
                     row.appendChild( scoreCell);
                 }
                 var Cell2 = document.createElement("td");
                 Cell2.textContent =winLose;
-                row.appendChild(Cell2);
                 var Cell3 = document.createElement("td");
                 Cell3.textContent =winSum;
-                row.appendChild(Cell2);
                 var Cell4 = document.createElement("td");
                 Cell4.textContent =allSum;
+                var Cell5 = document.createElement("td");
+                Cell5.textContent = maxScore;
+
                 row.appendChild(Cell2);
                 row.appendChild(Cell3);
                 row.appendChild(Cell4);
+                row.appendChild(Cell5);
                 table.appendChild(row);
             }
-            
         }
 
         function randomScore(){
