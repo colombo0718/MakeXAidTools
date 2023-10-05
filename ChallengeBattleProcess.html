@@ -43,7 +43,8 @@
     
     <button onclick="getValues()">產出對陣表</button>
     <p id="output"></p>
-
+    
+    <label for="numberInput">三.依序出戰並輸入成績：</label>
     <table>
         <thead>
             <tr>
@@ -57,20 +58,43 @@
                 <th style="background-color: #aaaaff;">藍方得分</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="table1">
+            <!-- 这里可以添加表格内容 -->
+        </tbody>
+    </table>
+    <button onclick="ranking()">決選晉級隊伍</button>
+    <button onclick="randomScore()">隨機給分數(測試用)</button>
+
+    <br><br>
+    <label for="numberInput">四.確認成績</label>
+    <table>
+        <thead>
+            <tr>
+                <th>隊伍</th>
+                <th>第一場</th>
+                <th>第二場</th>
+                <th>第三場</th>
+                <th>第四場</th>
+                <th>勝負分</th>
+                <th>總淨勝分</th>
+                <th>總得分</th>
+                <th>單場最高分</th>
+            </tr>
+        </thead>
+        <tbody id="table2">
             <!-- 这里可以添加表格内容 -->
         </tbody>
     </table>
 
     <script>
-        var teamsName=[]
+        var teamsName=[],teamsID=[]
         function generateTextInputs() {
             var inputElement = document.getElementById("numberInput");
             var inputValue = parseInt(inputElement.value);
 
             var textInputsContainer = document.getElementById("textInputsContainer");
             textInputsContainer.innerHTML = "";
-            teamsName=[]
+            teamsName=[],teamsID=[]
 
             for (var i = 0; i < inputValue; i++) {
                 var label = document.createElement("label");
@@ -79,9 +103,9 @@
 
                 var input = document.createElement("input");
                 input.type = "text";
-                input.placeholder = String.fromCharCode(97 + i) + "隊"
                 input.value = String.fromCharCode((65 + i)>90?71 + i:65 + i) + "隊"
                 input.style.fontFamily = "Courier New, monospace"
+                input.id=String.fromCharCode((65 + i)>90?71 + i:65 + i)
 
                 textInputsContainer.appendChild(label);
                 textInputsContainer.appendChild(input);
@@ -99,13 +123,17 @@
             var textInputs = document.querySelectorAll("#textInputsContainer input[type='text']");
             var output = document.getElementById("output");
 
-            teamsName = [];
+            teamsName = [],teamsID=[];
 
             textInputs.forEach(function(input) {
                 teamsName.push(input.value);
+                teamsID.push(input.id)
             });
+            console.log(teamsID)
 
-            var table = document.querySelector("table tbody");
+            
+            var table = document.querySelector("#table1");
+            console.log(table)
             table.innerHTML = "";
 
             var inputElement = document.getElementById("numberInput");
@@ -116,32 +144,34 @@
                 var timeCell = document.createElement("td");
                 timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
+                // 填入紅隊隊名
                 var teamsCell1 = document.createElement("td");
                 teamsCell1.style.backgroundColor = '#ffdddd';
-                teamsCell1.textContent = teamsName[i % teamsName.length];;
+                teamsCell1.textContent = teamsName[i % teamsName.length];
                 var teamsCell2 = document.createElement("td");
                 teamsCell2.style.backgroundColor = '#ffdddd';
-                teamsCell2.textContent = teamsName[(i+7)% teamsName.length];;
+                teamsCell2.textContent = teamsName[(i+7)% teamsName.length];
                 
-
+                // 填入藍隊隊名
                 var teamsCell3 = document.createElement("td");
                 teamsCell3.style.backgroundColor = '#ddddff';
-                teamsCell3.textContent = teamsName[(i+2)% teamsName.length];;
+                teamsCell3.textContent = teamsName[(i+2)% teamsName.length];
                 var teamsCell4 = document.createElement("td");
                 teamsCell4.style.backgroundColor = '#ddddff';
-                teamsCell4.textContent = teamsName[(i+4)% teamsName.length];;
+                teamsCell4.textContent = teamsName[(i+4)% teamsName.length];
 
+                // 建立分數輸入框
                 var teamsCell5 = document.createElement("td");
                 var inputElement = document.createElement("input");
-                inputElement.className="score a"
-                inputElement.id='R'+i
+                inputElement.className="score "+teamsID[i % teamsName.length]+' '+teamsID[(i+7)% teamsName.length]
+                inputElement.id='R'+(i+1)
                 inputElement.style.width = "80px";
                 inputElement.style.backgroundColor = '#ffdddd';
                 teamsCell5.appendChild(inputElement);
                 var teamsCell6 = document.createElement("td");
                 var inputElement = document.createElement("input");
-                inputElement.className="score b"
-                inputElement.id='B'+i
+                inputElement.className="score "+teamsID[(i+2) % teamsName.length]+' '+teamsID[(i+4)% teamsName.length]
+                inputElement.id='B'+(i+1)
                 inputElement.style.width = "80px";
                 inputElement.style.backgroundColor = '#ddddff';
                 teamsCell6.appendChild(inputElement);
@@ -192,6 +222,66 @@
 
             
         });
+
+        function ranking(){
+            var table = document.querySelector("#table2");
+            table.innerHTML = "";
+            for(var i = 0; i < teamsID.length; i++){
+                var row = document.createElement("tr");
+                var Cell1 = document.createElement("td");
+                Cell1.textContent = teamsName[i];
+                console.log(teamsID[i])
+                scoresBox=document.querySelectorAll('.'+teamsID[i])
+                row.appendChild(Cell1);
+                var winLose=0
+                var winSum=0
+                var allSum=0
+                for(var j = 0; j < 4; j++){
+                    var mineScore=scoresBox[j].value
+                    var scoreCell = document.createElement("td");
+                    scoreCell.textContent=mineScore
+                    var color=scoresBox[j].id[0]
+                    var game=scoresBox[j].id[1]
+                    var antiColor=color=="R"?"B":"R"
+                    var enemyScore=document.querySelector("#"+antiColor+game).value
+                    
+
+                    
+                    if(mineScore>enemyScore){
+                        scoreCell.style.backgroundColor = '#ffff00';
+                        winLose+=3
+                        winSum+=parseInt(mineScore)
+                    }else if(mineScore==enemyScore){
+                        scoreCell.style.backgroundColor = '#ddffdd';
+                        winLose+=1
+                    }
+                    allSum+=parseInt(mineScore)
+                    
+                    row.appendChild( scoreCell);
+                }
+                var Cell2 = document.createElement("td");
+                Cell2.textContent =winLose;
+                row.appendChild(Cell2);
+                var Cell3 = document.createElement("td");
+                Cell3.textContent =winSum;
+                row.appendChild(Cell2);
+                var Cell4 = document.createElement("td");
+                Cell4.textContent =allSum;
+                row.appendChild(Cell2);
+                row.appendChild(Cell3);
+                row.appendChild(Cell4);
+                table.appendChild(row);
+            }
+            
+        }
+
+        function randomScore(){
+            var scores = document.querySelectorAll('.score')
+            scores.forEach(function(input) {
+                input.value=Math.ceil(Math.random() * 10)
+            });
+
+        }
 
     </script>
 </body>
