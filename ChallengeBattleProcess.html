@@ -34,7 +34,7 @@
 <body>
     <h2>Challenge資格賽 對陣表產生器</h2>
     <label for="numberInput">一.請輸入隊伍總數：</label><br>
-    <input type="number" id="numberInput" value="10">
+    <input type="number" id="numberInput" value="12">
     <br>
     <button onclick="generateTextInputs()">產出隊伍框</button>
     <br><br>
@@ -89,10 +89,11 @@
 
     <script>
         var teamsName=[],teamsID=[]
+        var totalTeamNumber=0 // 總隊伍數
         function generateTextInputs() {
             var inputElement = document.getElementById("numberInput");
             var inputValue = parseInt(inputElement.value);
-
+            totalTeamNumber = parseInt(inputElement.value)
             var textInputsContainer = document.getElementById("textInputsContainer");
             textInputsContainer.innerHTML = "";
             teamsName=[],teamsID=[]
@@ -227,17 +228,19 @@
         function ranking(){
             var table = document.querySelector("#table2");
             table.innerHTML = "";
+            rankList=[]
             for(var i = 0; i < teamsID.length; i++){
                 var row = document.createElement("tr");
                 var Cell1 = document.createElement("td");
                 Cell1.textContent = teamsName[i];
-                console.log(teamsID[i])
+                // console.log(teamsID[i])
                 scoresBox=document.querySelectorAll('.'+teamsID[i])
                 row.appendChild(Cell1);
                 var winLose=0
                 var winSum=0
                 var allSum=0
                 var maxScore=0
+                var fake=0
                 for(var j = 0; j < 4; j++){
                     var mineScore=scoresBox[j].value
                     var scoreCell = document.createElement("td");
@@ -246,9 +249,9 @@
                     var game=scoresBox[j].id[1]
                     var antiColor=color=="R"?"B":"R"
                     var enemyScore=document.querySelector("#"+antiColor+game).value
-                    console.log(mineScore,enemyScore)                    
+                    // console.log(mineScore,enemyScore)                    
                     if(parseInt(mineScore)>parseInt(enemyScore)){
-                        console.log('win')
+                        // console.log('win')
                         scoreCell.style.backgroundColor = '#ffff00';
                         winLose+=3
                         winSum+=parseInt(mineScore)
@@ -269,13 +272,49 @@
                 Cell4.textContent =allSum;
                 var Cell5 = document.createElement("td");
                 Cell5.textContent = maxScore;
+                var rankCell = document.createElement("td");
+                rankCell.className='rank'
 
+                fake=parseInt(winLose)*1000000000+parseInt(winSum)*1000000+parseInt(allSum)*1000+parseInt(maxScore)
+                rankList.push(fake)
                 row.appendChild(Cell2);
                 row.appendChild(Cell3);
                 row.appendChild(Cell4);
                 row.appendChild(Cell5);
+                row.appendChild(rankCell);
                 table.appendChild(row);
             }
+            console.log(rankList)
+
+            // 使用slice()方法复制原始数组
+            var sortedNumbers = rankList.slice(0);
+            // console.log(sortedNumbers)
+            // 对数组进行从高到低的排序
+            sortedNumbers.sort(function(a, b) {
+            return b - a;
+            });
+            console.log(sortedNumbers)
+
+            // 填入排名
+            var promotedNumber=0
+            console.log(totalTeamNumber)
+            if(totalTeamNumber>11){promotedNumber=8}
+            if(totalTeamNumber>31){promotedNumber=16}
+            if(totalTeamNumber>64){promotedNumber=32}
+            if(totalTeamNumber>120){promotedNumber=64}
+
+
+
+            var ranking = [];
+            var rankplace = document.querySelectorAll('.rank')
+            for (var i = 0; i < rankList.length; i++) {
+                var index = sortedNumbers.indexOf(rankList[i]) + 1;
+                ranking.push(index);
+                rankplace[i].textContent=index
+                console.log(promotedNumber)
+                if(index<=promotedNumber){rankplace[i].style.backgroundColor='#ff00ff'}
+            }
+            console.log(ranking)
         }
 
         function randomScore(){
