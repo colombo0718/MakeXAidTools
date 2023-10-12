@@ -1,6 +1,207 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>    
+    <style>
+        body {
+            font-family: "Courier New", monospace;
+        }
+        /* CSS样式用于布局 */
+        /* body {
+            display: flex;
+            justify-content: space-between;
+        } */
+
+        /* #textInputsContainer {
+            flex-grow: 1; 
+            padding: 10px;
+        } */
+
+        table {
+            border-collapse: collapse;
+            margin-right: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .number-input {
+            width: 60px;
+        }
+    </style>
+</head>
 <body>
     <h2>Starter 分數計算機</h2>
+    <button onclick="caculate()">一鍵計算分數</button>
+    <button onclick="randomScore()">隨機給分數(測試用)</button>
+    <h3>得分紀錄</h3>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="5">獨立任務</th>
+                <th colspan="3">聯盟任務</th>
+            </tr>
+            <tr>
+                <th style="background-color: #ffaaaa;">得分</th>
+                <th style="background-color: #ffaaaa;">個數</th>
+                <th>項目</th>
+                <th style="background-color: #aaaaff;">個數</th>
+                <th style="background-color: #aaaaff;">得分</th>
+                <th>項目</th>
+                <th style="background-color: #aaffaa;">個數</th>
+                <th style="background-color: #aaffaa;">得分</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr>
+                <td id="sr1" style="background-color: #ffdddd;">0</td>
+                <td><input id="r1" type="number" class="number-input"></td>
+                <td>M01 {30分/個} 黃色小方塊 </td>
+                <td><input id="b1" type="number" class="number-input"></td>
+                <td id="sb1" style="background-color: #ddddff;">0</td>
+                <td>M05 {30分/個} 紅藍方塊(自動)</td>
+                <td><input id="c1" type="number" class="number-input"></td>
+                <td id="sc1" style="background-color: #ddffdd;">0</td>
+            </tr>
+            <tr>
+                <td id="sr2" style="background-color: #ffdddd;">0</td>
+                <td><input id="r2" type="number" class="number-input"></td>
+                <td>M02 {50分/個} 黃色大球</td>
+                <td><input id="b2" type="number" class="number-input"></td>
+                <td id="sb2" style="background-color: #ddddff;">0</td>
+                <td>M06 {10分/個} 紅藍小球</td>
+                <td><input id="c2" type="number" class="number-input"></td>
+                <td id="sc2" style="background-color: #ddffdd;">0</td>
+            </tr>
+            <tr>
+                <td id="sr3" style="background-color: #ffdddd;">0</td>
+                <td><input id="r3" type="number" class="number-input"></td>
+                <td>M03 {30分/個} 紅/藍小球</td>
+                <td><input id="b3" type="number" class="number-input"></td>
+                <td id="sb3" style="background-color: #ddddff;">0</td>
+                <td>M07 {30分/個} 紅藍方塊(手動)</td>
+                <td><input id="c3" type="number" class="number-input"></td>
+                <td id="sc3" style="background-color: #ddffdd;">0</td>
+            </tr>
+            <tr>
+                <td id="sr4" style="background-color: #ffdddd;">0</td>
+                <td><input id="r4" type="number" class="number-input"></td>
+                <td>M04 {50分/個} 綠色小球</td>
+                <td><input id="b4" type="number" class="number-input"></td>
+                <td id="sb4" style="background-color: #ddddff;">0</td>
+                <td>M08 {30分/個} 戰隊標記物</td>
+                <td><input id="c4" type="number" class="number-input"></td>
+                <td id="sc4" style="background-color: #ddffdd;">0</td>
+            </tr>
+            <tr>
+                <td id="sr" style="background-color: #ffdddd;" colspan="2">0</td>
+                <th>獨立任務得分</th>
+                <td id="sb" style="background-color: #ddddff;" colspan="2">0</td>
+                <th>聯盟任務得分</th>
+                <td id="sc" style="background-color: #ddffdd;" colspan="5">0</td>
+            </tr>
+        </tbody>
+    </table>
     
+    <h3>判罰紀錄</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="background-color: #ffaaaa;">紅方</th>
+                <th style="background-color: #aaaaff;">藍方</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr>
+                <td><input id="pr" type="number" class="number-input"></td>
+                <td><input id="pb" type="number" class="number-input"></td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>比賽成績</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="background-color: #ffaaaa;">紅方</th>
+                <th style="background-color: #aaaaff;">藍方</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr>
+                <td id="tr" style="background-color: #ffdddd;">0</td>
+                <td id="tb" style="background-color: #ddddff;">0</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        caculate=function(){
+            document.querySelector("#sr1").textContent = 30*document.querySelector("#r1").value
+            document.querySelector("#sb1").textContent = 30*document.querySelector("#b1").value
+
+            document.querySelector("#sr2").textContent = 50*document.querySelector("#r2").value
+            document.querySelector("#sb2").textContent = 50*document.querySelector("#b2").value
+
+            document.querySelector("#sr3").textContent = 30*document.querySelector("#r3").value
+            document.querySelector("#sb3").textContent = 30*document.querySelector("#b3").value
+
+            document.querySelector("#sr4").textContent = 50*document.querySelector("#r4").value
+            document.querySelector("#sb4").textContent = 50*document.querySelector("#b4").value
+
+            document.querySelector("#sc1").textContent = 30*document.querySelector("#c1").value
+            document.querySelector("#sc2").textContent = 10*document.querySelector("#c2").value
+            document.querySelector("#sc3").textContent = 30*document.querySelector("#c3").value
+            document.querySelector("#sc4").textContent = 30*document.querySelector("#c4").value
+
+            document.querySelector("#sr").textContent=
+            parseInt(document.querySelector("#sr1").textContent)+
+            parseInt(document.querySelector("#sr2").textContent)+
+            parseInt(document.querySelector("#sr3").textContent)+
+            parseInt(document.querySelector("#sr4").textContent)
+
+            document.querySelector("#sb").textContent=
+            parseInt(document.querySelector("#sb1").textContent)+
+            parseInt(document.querySelector("#sb2").textContent)+
+            parseInt(document.querySelector("#sb3").textContent)+
+            parseInt(document.querySelector("#sb4").textContent)
+
+            document.querySelector("#sc").textContent=
+            parseInt(document.querySelector("#sc1").textContent)+
+            parseInt(document.querySelector("#sc2").textContent)+
+            parseInt(document.querySelector("#sc3").textContent)+
+            parseInt(document.querySelector("#sc4").textContent)
+
+            document.querySelector("#tr").textContent=
+            parseInt(document.querySelector("#sr").textContent)+
+            parseInt(document.querySelector("#sc").textContent)-
+            parseInt(document.querySelector("#pr").value)
+
+            document.querySelector("#tb").textContent=
+            parseInt(document.querySelector("#sb").textContent)+
+            parseInt(document.querySelector("#sc").textContent)-
+            parseInt(document.querySelector("#pb").value)
+        }
+
+        randomScore=function(){
+            document.querySelector("#r1").value = Math.round(Math.random()*3)
+            document.querySelector("#b1").value = Math.round(Math.random()*3)
+
+            document.querySelector("#r2").value = Math.round(Math.random()*1)
+            document.querySelector("#b2").value = Math.round(Math.random()*1)
+
+            document.querySelector("#r3").value = Math.round(Math.random()*5)
+            document.querySelector("#b3").value = Math.round(Math.random()*5)
+
+            document.querySelector("#r4").value = Math.round(Math.random()*3)
+            document.querySelector("#b4").value = Math.round(Math.random()*3)
+
+            document.querySelector("#c1").value = Math.round(Math.random()*2)
+            document.querySelector("#c2").value = Math.round(Math.random()*30)
+            document.querySelector("#c3").value = Math.round(Math.random()*2)
+            document.querySelector("#c4").value = Math.round(Math.random()*2)
+
+            document.querySelector("#pr").value = Math.round(Math.random()*1)*20
+            document.querySelector("#pb").value = Math.round(Math.random()*1)*20
+        }
+    </script>
+
+</body>
