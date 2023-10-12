@@ -134,6 +134,17 @@
         </tbody>
     </table>
     <script>
+    // 当文档加载完成后执行
+    window.onload = function() {
+        // 选择所有具有 class="number-input" 的输入框
+        var inputs = document.querySelectorAll('.number-input');
+        
+        // 遍历每一个输入框并设置它的值为0
+        inputs.forEach(function(input) {
+            input.value = 0;
+        });
+    }
+
         caculate=function(){
             document.querySelector("#sr1").textContent = 30*document.querySelector("#r1").value
             document.querySelector("#sb1").textContent = 30*document.querySelector("#b1").value
