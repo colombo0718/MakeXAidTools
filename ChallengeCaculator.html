@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <style>
+        body {
+            font-family: "Courier New", monospace;
+        }
+        /* CSS样式用于布局 */
+        /* body {
+            display: flex;
+            justify-content: space-between;
+        } */
+
+        /* #textInputsContainer {
+            flex-grow: 1; 
+            padding: 10px;
+        } */
+
+        table {
+            border-collapse: collapse;
+            margin-right: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .number-input {
+            width: 60px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Challenge 分數計算機</h2>
+    <button onclick="caculate()">一鍵計算分數</button>
+    <button onclick="randomScore()">隨機給個數(測試用)</button>
+    <h3>得分紀錄</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="background-color: #ffaaaa;">得分</th>
+                <th style="background-color: #ffaaaa;">個數</th>
+                <th>項目</th>
+                <th style="background-color: #aaaaff;">個數</th>
+                <th style="background-color: #aaaaff;">得分</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr>
+                <td id="sr1" style="background-color: #ffdddd;">0</td>
+                <td><input id="r1" type="number" class="number-input"></td>
+                <td>1. { 25分/個} 完好球瓶 </td>
+                <td><input id="b1" type="number" class="number-input"></td>
+                <td id="sb1" style="background-color: #ddddff;">0</td>
+            </tr>
+            <tr>
+                <td id="sr2" style="background-color: #ffdddd;">0</td>
+                <td><input id="r2" type="number" class="number-input"></td>
+                <td>2. { 20分/個} 回收球瓶 </td>
+                <td><input id="b2" type="number" class="number-input"></td>
+                <td id="sb2" style="background-color: #ddddff;">0</td>
+            </tr>
+            <tr>
+                <td id="sr3" style="background-color: #ffdddd;">0</td>
+                <td><input id="r3" type="number" class="number-input"></td>
+                <td>3. { 15分/個} 計算方塊</td>
+                <td><input id="b3" type="number" class="number-input"></td>
+                <td id="sb3" style="background-color: #ddddff;">0</td>
+            </tr>
+            <tr>
+                <td id="sr4" style="background-color: #ffdddd;">0</td>
+                <td><input id="r4" type="number" class="number-input"></td>
+                <td>4. { 30分/個} 存儲方塊</td>
+                <td><input id="b4" type="number" class="number-input"></td>
+                <td id="sb4" style="background-color: #ddddff;">0</td>
+            </tr>
+            <tr>
+                <td id="sr5" style="background-color: #ffdddd;">0</td>
+                <td><input id="r5" type="number" class="number-input"></td>
+                <td>5. { 5分/個} 爭奪方塊</td>
+                <td><input id="b5" type="number" class="number-input"></td>
+                <td id="sb5" style="background-color: #ddddff;">0</td>
+            </tr>            <tr>
+                <td id="sr6" style="background-color: #ffdddd;">0</td>
+                <td><input id="r6" type="number" class="number-input"></td>
+                <td>6. { 50分/面} 懸掛隊旗 </td>
+                <td><input id="b6" type="number" class="number-input"></td>
+                <td id="sb6" style="background-color: #ddddff;">0</td>
+            </tr>            <tr>
+                <td id="sr7" style="background-color: #ffdddd;">0</td>
+                <td><input id="r7" type="number" class="number-input"></td>
+                <td>7. {150分/個} MakeX挑戰</td>
+                <td><input id="b7" type="number" class="number-input"></td>
+                <td id="sb7" style="background-color: #ddddff;">0</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="pr" type="number" class="number-input"></td>
+                <th>違規扣分</th>
+                <td colspan="2"><input id="pb" type="number" class="number-input"></td>
+            </tr>
+            <tr>
+                <td id="sr" style="background-color: #ffdddd;" colspan="2">0</td>
+                <th>總得分</th>
+                <td id="sb" style="background-color: #ddddff;" colspan="2">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+    // 当文档加载完成后执行
+    window.onload = function() {
+        // 选择所有具有 class="number-input" 的输入框
+        var inputs = document.querySelectorAll('.number-input');
+        
+        // 遍历每一个输入框并设置它的值为0
+        inputs.forEach(function(input) {
+            input.value = 0;
+        });
+    }
+
+        caculate=function(){
+            document.querySelector("#sr1").textContent = 25*document.querySelector("#r1").value
+            document.querySelector("#sb1").textContent = 25*document.querySelector("#b1").value
+
+            document.querySelector("#sr2").textContent = 20*document.querySelector("#r2").value
+            document.querySelector("#sb2").textContent = 20*document.querySelector("#b2").value
+
+            document.querySelector("#sr3").textContent = 15*document.querySelector("#r3").value
+            document.querySelector("#sb3").textContent = 15*document.querySelector("#b3").value
+
+            document.querySelector("#sr4").textContent = 30*document.querySelector("#r4").value
+            document.querySelector("#sb4").textContent = 30*document.querySelector("#b4").value
+
+            document.querySelector("#sr5").textContent = 5 *document.querySelector("#r5").value
+            document.querySelector("#sb5").textContent = 5 *document.querySelector("#b5").value
+            
+            document.querySelector("#sr6").textContent = 50*document.querySelector("#r6").value
+            document.querySelector("#sb6").textContent = 50*document.querySelector("#b6").value
+            
+            document.querySelector("#sr7").textContent =150*document.querySelector("#r7").value
+            document.querySelector("#sb7").textContent =150*document.querySelector("#b7").value
+
+            document.querySelector("#sr").textContent=
+            parseInt(document.querySelector("#sr1").textContent)+
+            parseInt(document.querySelector("#sr2").textContent)+
+            parseInt(document.querySelector("#sr3").textContent)+
+            parseInt(document.querySelector("#sr4").textContent)+
+            parseInt(document.querySelector("#sr5").textContent)+
+            parseInt(document.querySelector("#sr6").textContent)+
+            parseInt(document.querySelector("#sr7").textContent)-
+            parseInt(document.querySelector("#pr").value)
+
+            document.querySelector("#sb").textContent=
+            parseInt(document.querySelector("#sb1").textContent)+
+            parseInt(document.querySelector("#sb2").textContent)+
+            parseInt(document.querySelector("#sb3").textContent)+
+            parseInt(document.querySelector("#sb4").textContent)+
+            parseInt(document.querySelector("#sb5").textContent)+
+            parseInt(document.querySelector("#sb6").textContent)+
+            parseInt(document.querySelector("#sb7").textContent)-
+            parseInt(document.querySelector("#pb").value)
+        }
+
+        randomScore=function(){
+            document.querySelector("#r1").value = Math.round(Math.random()*12)
+            document.querySelector("#b1").value = Math.round(Math.random()*12)
+
+            var r1=document.querySelector("#r1").value
+            var b1=document.querySelector("#b1").value
+
+            document.querySelector("#r2").value = Math.round(Math.random()*(12-r1))
+            document.querySelector("#b2").value = Math.round(Math.random()*(12-b1))
+
+            document.querySelector("#r3").value = Math.round(Math.random()*3)
+            var r3=document.querySelector("#r3").value
+            document.querySelector("#b3").value = Math.round(Math.random()*(3-r3))
+            var b3=document.querySelector("#b3").value
+
+            document.querySelector("#r4").value = Math.round(Math.random()*3)
+            var r4=document.querySelector("#r4").value
+            document.querySelector("#b4").value = Math.round(Math.random()*(3-r4))
+            var b4=document.querySelector("#b4").value
+
+            document.querySelector("#r5").value = Math.round(Math.random()*3)
+            var r5=document.querySelector("#r5").value
+            document.querySelector("#b5").value = Math.round(Math.random()*(3-r5))
+            var b5=document.querySelector("#b5").value
+
+            document.querySelector("#r6").value = Math.round(Math.random()*2)
+            document.querySelector("#b6").value = Math.round(Math.random()*2)
+
+            if(r3+r4+r5>5){
+            document.querySelector("#r7").value = Math.round(Math.random()*1)}
+            if(b3+b4+b5>5){
+            document.querySelector("#b7").value = Math.round(Math.random()*1)}
+            
+
+            document.querySelector("#pr").value = Math.round(Math.random()*1)*20
+            document.querySelector("#pb").value = Math.round(Math.random()*1)*20
+        }
+    </script>
+
+</body>
