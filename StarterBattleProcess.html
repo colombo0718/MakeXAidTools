@@ -124,24 +124,24 @@
 
                 startTime = addMinutes(startTime, 15);
             }
-            // part 2
-            for (var i = 0; i < inputValue; i++) {
-                var timeCell = document.createElement("td");
-                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+            // // part 2
+            // for (var i = 0; i < inputValue; i++) {
+            //     var timeCell = document.createElement("td");
+            //     timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
-                var teamsCell = document.createElement("td");
-                teamsCell.textContent = teamsName[i % teamsName.length];;
-                var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
+            //     var teamsCell = document.createElement("td");
+            //     teamsCell.textContent = teamsName[i % teamsName.length];;
+            //     var teamsCell2 = document.createElement("td");
+            //     teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
 
-                var row = document.createElement("tr");
-                row.appendChild(timeCell);
-                row.appendChild(teamsCell);
-                row.appendChild(teamsCell2);
-                table.appendChild(row);
+            //     var row = document.createElement("tr");
+            //     row.appendChild(timeCell);
+            //     row.appendChild(teamsCell);
+            //     row.appendChild(teamsCell2);
+            //     table.appendChild(row);
 
-                startTime = addMinutes(startTime, 15);
-            }
+            //     startTime = addMinutes(startTime, 15);
+            // }
         }
 
         // 辅助函数：将时间增加指定分钟数
