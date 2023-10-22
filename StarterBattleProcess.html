@@ -44,15 +44,42 @@
     <button onclick="getValues()">產出對陣表</button>
     <p id="output"></p>
 
+    三.依序出戰並輸入成績：
     <table>
         <thead>
             <tr>
                 <th>時間</th>
-                <th>紅方</th>
-                <th>藍方</th>
+                <th style="background-color: #ffaaaa;">紅方</th>
+                <th style="background-color: #aaaaff;">藍方</th>
+                <th>得分</th>
+                <th>用時</th>
             </tr>
         </thead>
         <tbody>
+            <!-- 这里可以添加表格内容 -->
+        </tbody>
+    </table>
+    <button onclick="ranking()">決選晉級隊伍</button>
+    <button onclick="randomScore()">隨機給分數(測試用)</button>
+
+    <br><br>
+    <label for="numberInput">四.確認成績</label>
+    <table>
+        <thead>
+            <tr>
+                <th>隊伍</th>
+                <th>得分1</th>
+                <th>用時1</th>
+                <th>得分2</th>
+                <th>用時2</th>
+                <!-- <th>第三場</th>
+                <th>第四場</th> -->
+                <th>總得分</th>
+                <th>總用時</th>
+                <th>名次</th>
+            </tr>
+        </thead>
+        <tbody id="table2">
             <!-- 这里可以添加表格内容 -->
         </tbody>
     </table>
@@ -77,6 +104,7 @@
                 input.placeholder = String.fromCharCode(97 + i) + "隊"
                 input.value = String.fromCharCode((65 + i)>90?71 + i:65 + i) + "隊"
                 input.style.fontFamily = "Courier New, monospace"
+                input.id=String.fromCharCode((65 + i)>90?71 + i:65 + i)
 
                 textInputsContainer.appendChild(label);
                 textInputsContainer.appendChild(input);
@@ -88,16 +116,18 @@
         }
         generateTextInputs()
 
-        console.log(textInputsContainer)
+        // console.log(textInputsContainer)
 
         function getValues() {
             var textInputs = document.querySelectorAll("#textInputsContainer input[type='text']");
             var output = document.getElementById("output");
 
-            teamsName = [];
+            teamsName = [];teamsID=[];
 
             textInputs.forEach(function(input) {
                 teamsName.push(input.value);
+                console.log(input.id)
+                teamsID.push(input.id)
             });
 
             var table = document.querySelector("table tbody");
@@ -112,14 +142,32 @@
                 timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
                 var teamsCell = document.createElement("td");
-                teamsCell.textContent = teamsName[i % teamsName.length];;
+                teamsCell.textContent = teamsName[i % teamsName.length];
+                teamsCell.style.backgroundColor = '#ffdddd';
                 var teamsCell2 = document.createElement("td");
-                teamsCell2.textContent = teamsName[(i+2)% teamsName.length];;
+                teamsCell2.textContent = teamsName[(i+2)% teamsName.length];
+                teamsCell2.style.backgroundColor = '#ddddff';
+
+                var teamsCell3 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.style.width = "80px";
+                inputElement.className="score "+teamsID[i % teamsName.length]
+                teamsCell3.appendChild(inputElement);
+
+
+                var teamsCell4 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.style.width = "80px";
+                inputElement.className="time "+teamsID[(i+2)% teamsName.length]
+                teamsCell4.appendChild(inputElement);
+
 
                 var row = document.createElement("tr");
                 row.appendChild(timeCell);
                 row.appendChild(teamsCell);
                 row.appendChild(teamsCell2);
+                row.appendChild(teamsCell3);
+                row.appendChild(teamsCell4);
                 table.appendChild(row);
 
                 startTime = addMinutes(startTime, 15);
@@ -158,6 +206,33 @@
             var minsStr = mins.toString().padStart(2, "0");
 
             return hoursStr + ":" + minsStr;
+        }
+
+        function ranking(){
+            var table = document.querySelector("#table2");
+            table.innerHTML = "";
+            rankList=[]
+            for(var i = 0; i < teamsID.length; i++){
+                var row = document.createElement("tr");
+                var Cell1 = document.createElement("td");
+                Cell1.textContent = teamsName[i];
+                // console.log(teamsID[i])
+                scoresBox=document.querySelectorAll('.'+teamsID[i])
+                row.appendChild(Cell1);
+            }
+        }
+
+        function randomScore(){
+            var scores = document.querySelectorAll('.score')
+            scores.forEach(function(input) {
+                input.value=Math.ceil(Math.random() * 10)
+            });
+            var times = document.querySelectorAll('.time')
+            times.forEach(function(input) {
+                input.value=Math.ceil(Math.random() * 2)+1+":"
+                var sec=Math.ceil(Math.random() * 59)
+                input.value+=sec>=10?sec:"0"+sec
+            });
         }
 
     </script>
