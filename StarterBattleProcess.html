@@ -41,6 +41,7 @@
     <label for="numberInput">二.請輸入隊伍名稱：</label>
     <div id="textInputsContainer"></div>
     
+    <button id="pasteName">貼上隊伍名</button>
     <button onclick="getValues()">產出對陣表</button>
     <p id="output"></p>
 
@@ -298,6 +299,8 @@
             // console.log(ranking)
         }
 
+
+
         function randomScore(){
             var scores = document.querySelectorAll('.score')
             scores.forEach(function(input) {
@@ -310,6 +313,29 @@
                 input.value+=sec>=10?sec:"0"+sec
             });
         }
+
+
+            // 获取按钮的引用
+    const pasteNameButton = document.getElementById("pasteName");
+
+// 添加按钮点击事件监听器
+pasteNameButton.addEventListener("click", async function() {
+  try {
+    // 从剪贴板中读取文本数据
+    const clipboardText = await navigator.clipboard.readText();
+    
+    // 将读取的文本数据放入相应的输入框或处理数据
+    console.log("从剪贴板中读取的数据：", clipboardText);
+
+    // 在这里您可以进一步处理或分割数据，然后放入输入框或其他位置
+    // 例如：
+    // const dataArr = clipboardText.split(",");
+    // input1.value = dataArr[0];
+    // input2.value = dataArr[1];
+  } catch (error) {
+    console.error("无法读取剪贴板中的数据：", error);
+  }
+});
 
     </script>
 </body>
