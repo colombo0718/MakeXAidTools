@@ -34,7 +34,7 @@
 <body>
     <h2>Starter資格賽 對陣表產生器</h2>
     <label for="numberInput">一.請輸入隊伍總數：</label><br>
-    <input type="number" id="numberInput" value="10">
+    <input type="number" id="numberInput" value="12">
     <br>
     <button onclick="generateTextInputs()">產出隊伍框</button>
     <br><br>
@@ -151,14 +151,14 @@
                 var teamsCell3 = document.createElement("td");
                 var inputElement = document.createElement("input");
                 inputElement.style.width = "80px";
-                inputElement.className="score "+teamsID[i % teamsName.length]
+                inputElement.className="score "+teamsID[i % teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
                 teamsCell3.appendChild(inputElement);
 
 
                 var teamsCell4 = document.createElement("td");
                 var inputElement = document.createElement("input");
                 inputElement.style.width = "80px";
-                inputElement.className="time "+teamsID[(i+2)% teamsName.length]
+                inputElement.className="time "+teamsID[i% teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
                 teamsCell4.appendChild(inputElement);
 
 
@@ -208,18 +208,94 @@
             return hoursStr + ":" + minsStr;
         }
 
+        function timeStringToSeconds(timeString) {
+            const [minutes, seconds] = timeString.split(":").map(Number);
+            return minutes * 60 + seconds;
+        }
+
+        function secondsToTimeString(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+            const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+            return `${formattedMinutes}:${formattedSeconds}`;
+        }
+
         function ranking(){
             var table = document.querySelector("#table2");
             table.innerHTML = "";
             rankList=[]
             for(var i = 0; i < teamsID.length; i++){
                 var row = document.createElement("tr");
+                var Cell0 = document.createElement("td");
+                Cell0.textContent = teamsName[i];
+                row.appendChild(Cell0);
+
+                scoreBox=document.querySelectorAll('.'+teamsID[i]+'.score')
+                timeBox=document.querySelectorAll('.'+teamsID[i]+'.time')
+                
                 var Cell1 = document.createElement("td");
-                Cell1.textContent = teamsName[i];
-                // console.log(teamsID[i])
-                scoresBox=document.querySelectorAll('.'+teamsID[i])
+                Cell1.textContent = scoreBox[0].value
                 row.appendChild(Cell1);
+
+                var Cell2 = document.createElement("td");
+                Cell2.textContent = timeBox[0].value+" ("+timeStringToSeconds(timeBox[0].value) +"s)"
+                row.appendChild(Cell2);
+
+                var Cell3 = document.createElement("td");
+                Cell3.textContent = scoreBox[1].value
+                row.appendChild(Cell3);
+
+                var Cell4 = document.createElement("td");
+                Cell4.textContent = timeBox[1].value+" ("+timeStringToSeconds(timeBox[1].value) +"s)"
+                row.appendChild(Cell4);
+
+                var Cell5 = document.createElement("td");
+                totalScore=parseInt(scoreBox[0].value)+parseInt(scoreBox[1].value)
+                Cell5.textContent =totalScore
+                row.appendChild(Cell5);
+
+                var Cell6 = document.createElement("td");
+                totalTime=timeStringToSeconds(timeBox[0].value)+timeStringToSeconds(timeBox[1].value)
+                Cell6.textContent = totalTime+'s'
+                row.appendChild(Cell6);
+
+                var Cell6 = document.createElement("td");
+
+                var rankCell = document.createElement("td");
+                rankCell.className='rank'
+                row.appendChild(rankCell);
+
+                table.appendChild(row);
+                fake=totalScore*1000+(500-totalTime)
+                rankList.push(fake)
             }
+            // console.log(rankList)
+
+            // 使用slice()方法复制原始数组
+            var sortedNumbers = rankList.slice(0);
+            // console.log(sortedNumbers)
+            // 对数组进行从高到低的排序
+            sortedNumbers.sort(function(a, b) {
+            return b - a;
+            });
+            // console.log(sortedNumbers)
+
+            promotedNumber=(teamsID.length)/2
+            if(promotedNumber%1==0.5){promotedNumber+=0.5}
+            if(promotedNumber%2==1)(promotedNumber+=1)
+            // console.log( promotedNumber)
+
+
+            var ranking = [];
+            var rankplace = document.querySelectorAll('.rank')
+            for (var i = 0; i < rankList.length; i++) {
+                var index = sortedNumbers.indexOf(rankList[i]) + 1;
+                ranking.push(index);
+                rankplace[i].textContent=index
+                if(index<=promotedNumber){rankplace[i].style.backgroundColor='#ff00ff'}
+            }
+            // console.log(ranking)
         }
 
         function randomScore(){
