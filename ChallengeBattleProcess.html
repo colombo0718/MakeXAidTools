@@ -34,13 +34,14 @@
 <body>
     <h2>Challenge資格賽 對陣表產生器</h2>
     <label for="numberInput">一.請輸入隊伍總數：</label><br>
-    <input type="number" id="numberInput" value="12">
+    <input type="number" id="numberInput" value="18">
     <br>
     <button onclick="generateTextInputs()">產出隊伍框</button>
     <br><br>
     <label for="numberInput">二.請輸入隊伍名稱：</label>
     <div id="textInputsContainer"></div>
     
+    <button id="pasteName">貼上隊伍名</button>
     <button onclick="getValues()">產出對陣表</button>
     <p id="output"></p>
     
@@ -62,8 +63,9 @@
             <!-- 这里可以添加表格内容 -->
         </tbody>
     </table>
-    <button onclick="ranking()">決選晉級隊伍</button>
+    <button id="pasteScore">貼上全體成績</button>
     <button onclick="randomScore()">隨機給分數(測試用)</button>
+    <button onclick="ranking()">決選晉級隊伍</button>
 
     <br><br>
     <label for="numberInput">四.確認成績</label>
@@ -108,6 +110,7 @@
                 input.value = String.fromCharCode((65 + i)>90?71 + i:65 + i) + "隊"
                 input.style.fontFamily = "Courier New, monospace"
                 input.id=String.fromCharCode((65 + i)>90?71 + i:65 + i)
+                input.className="name"
 
                 textInputsContainer.appendChild(label);
                 textInputsContainer.appendChild(input);
@@ -308,6 +311,48 @@
             });
 
         }
+
+
+            // 获取按钮的引用
+            const pasteNameButton = document.getElementById("pasteName");
+
+        // 添加按钮点击事件监听器
+        pasteNameButton.addEventListener("click", async function() {
+
+            const clipboardText = await navigator.clipboard.readText();
+            
+            // 将读取的文本数据放入相应的输入框或处理数据
+            console.log("从剪贴板中读取的数据：", clipboardText);
+            nameBox=document.querySelectorAll('.name')
+
+            for(var i=0;i<nameBox.length;i++){
+                nameBox[i].value=clipboardText.split("\n")[i]
+            }
+
+
+        });
+
+
+            // 获取按钮的引用
+    const pasteScoreButton = document.getElementById("pasteScore");
+
+    // 添加按钮点击事件监听器
+    pasteScoreButton.addEventListener("click", async function() {
+
+        const clipboardText = await navigator.clipboard.readText();
+        
+        // 将读取的文本数据放入相应的输入框或处理数据
+        console.log("从剪贴板中读取的数据：", clipboardText);
+        scoreTimeBox=document.querySelectorAll('.score')
+        console.log(scoreTimeBox)
+
+        console.log(clipboardText.split(/\r\n|\t/))
+        for(var i=0;i<scoreTimeBox.length;i++){
+            scoreTimeBox[i].value=clipboardText.split(/\r\n|\t/)[i]
+        }
+
+
+    });
 
     </script>
 </body>
