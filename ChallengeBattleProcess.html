@@ -209,22 +209,6 @@
             return hoursStr + ":" + minsStr;
         }
 
-        // 添加粘贴事件监听器
-        document.addEventListener('paste', function (e) {
-            var scores = document.querySelectorAll('.score');
-            console.log(scores)
-            // 取消默认粘贴行为
-            e.preventDefault();
-
-            // 获取剪贴板的内容
-            var clipboardData = e.clipboardData || window.clipboardData;
-            var pastedData = clipboardData.getData('text');
-            console.log(pastedData)
-            var rows = pastedData.split('\n');
-
-            
-        });
-
         function ranking(){
             var table = document.querySelector("#table2");
             table.innerHTML = "";
