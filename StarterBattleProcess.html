@@ -52,8 +52,9 @@
                 <th>時間</th>
                 <th style="background-color: #ffaaaa;">紅方</th>
                 <th style="background-color: #aaaaff;">藍方</th>
-                <th>得分</th>
-                <th>用時</th>
+                <th style="background-color: #ffaaaa;">紅方得分</th>
+                <th style="background-color: #aaaaff;">藍方得分</th>
+                <th style="background-color: #aaffaa;">用時</th>
             </tr>
         </thead>
         <tbody>
@@ -154,15 +155,24 @@
                 var teamsCell3 = document.createElement("td");
                 var inputElement = document.createElement("input");
                 inputElement.style.width = "80px";
-                inputElement.className="score "+teamsID[i % teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
+                inputElement.style.backgroundColor = '#ffdddd';
+                inputElement.className="score "+teamsID[i % teamsName.length] 
                 teamsCell3.appendChild(inputElement);
-
 
                 var teamsCell4 = document.createElement("td");
                 var inputElement = document.createElement("input");
                 inputElement.style.width = "80px";
-                inputElement.className="time "+teamsID[i% teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
+                inputElement.style.backgroundColor = '#ddddff';
+                inputElement.className="score "+teamsID[(i+2)% teamsName.length]
                 teamsCell4.appendChild(inputElement);
+
+
+                var teamsCell5 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.style.width = "80px";
+                inputElement.style.backgroundColor = '#ddffdd';
+                inputElement.className="time "+teamsID[i% teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
+                teamsCell5.appendChild(inputElement);
 
 
                 var row = document.createElement("tr");
@@ -171,6 +181,7 @@
                 row.appendChild(teamsCell2);
                 row.appendChild(teamsCell3);
                 row.appendChild(teamsCell4);
+                row.appendChild(teamsCell5);
                 table.appendChild(row);
 
                 startTime = addMinutes(startTime, 15);
