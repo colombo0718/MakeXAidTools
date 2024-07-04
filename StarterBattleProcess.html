@@ -34,7 +34,7 @@
 <body>
     <h2>Starter資格賽 對陣表產生器</h2>
     <label for="numberInput">一.請輸入隊伍總數：</label><br>
-    <input type="number" id="numberInput" value="17">
+    <input type="number" id="numberInput" value="13">
     <br>
     <button onclick="generateTextInputs()">產出隊伍框</button>
     <br><br>
@@ -52,9 +52,9 @@
                 <th>時間</th>
                 <th style="background-color: #ffaaaa;">紅方</th>
                 <th style="background-color: #aaaaff;">藍方</th>
-                <th style="background-color: #ffaaaa;">紅方得分</th>
-                <th style="background-color: #aaaaff;">藍方得分</th>
-                <th style="background-color: #aaffaa;">用時</th>
+                <th>紅方得分</th>
+                <th>藍方得分</th>
+                <th>用時</th>
             </tr>
         </thead>
         <tbody>
@@ -155,24 +155,15 @@
                 var teamsCell3 = document.createElement("td");
                 var inputElement = document.createElement("input");
                 inputElement.style.width = "80px";
-                inputElement.style.backgroundColor = '#ffdddd';
-                inputElement.className="score "+teamsID[i % teamsName.length] 
+                inputElement.className="score "+teamsID[i % teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
                 teamsCell3.appendChild(inputElement);
+
 
                 var teamsCell4 = document.createElement("td");
                 var inputElement = document.createElement("input");
                 inputElement.style.width = "80px";
-                inputElement.style.backgroundColor = '#ddddff';
-                inputElement.className="score "+teamsID[(i+2)% teamsName.length]
-                teamsCell4.appendChild(inputElement);
-
-
-                var teamsCell5 = document.createElement("td");
-                var inputElement = document.createElement("input");
-                inputElement.style.width = "80px";
-                inputElement.style.backgroundColor = '#ddffdd';
                 inputElement.className="time "+teamsID[i% teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
-                teamsCell5.appendChild(inputElement);
+                teamsCell4.appendChild(inputElement);
 
 
                 var row = document.createElement("tr");
@@ -181,29 +172,44 @@
                 row.appendChild(teamsCell2);
                 row.appendChild(teamsCell3);
                 row.appendChild(teamsCell4);
-                row.appendChild(teamsCell5);
                 table.appendChild(row);
 
                 startTime = addMinutes(startTime, 15);
             }
-            // // part 2
-            // for (var i = 0; i < inputValue; i++) {
-            //     var timeCell = document.createElement("td");
-            //     timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+            // part 2
+            for (var i = 0; i < inputValue; i++) {
+                var timeCell = document.createElement("td");
+                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
 
-            //     var teamsCell = document.createElement("td");
-            //     teamsCell.textContent = teamsName[i % teamsName.length];;
-            //     var teamsCell2 = document.createElement("td");
-            //     teamsCell2.textContent = teamsName[(i+3)% teamsName.length];;
+                var teamsCell = document.createElement("td");
+                teamsCell.textContent = teamsName[i % teamsName.length];
+                teamsCell.style.backgroundColor = '#ffdddd';
+                var teamsCell2 = document.createElement("td");
+                teamsCell2.textContent = teamsName[(i+3)% teamsName.length];
+                teamsCell2.style.backgroundColor = '#ddddff';
 
-            //     var row = document.createElement("tr");
-            //     row.appendChild(timeCell);
-            //     row.appendChild(teamsCell);
-            //     row.appendChild(teamsCell2);
-            //     table.appendChild(row);
 
-            //     startTime = addMinutes(startTime, 15);
-            // }
+                var teamsCell3 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.style.width = "80px";
+                inputElement.className="score "+teamsID[i % teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
+                teamsCell3.appendChild(inputElement);
+
+
+                var teamsCell4 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.style.width = "80px";
+                inputElement.className="time "+teamsID[i% teamsName.length]+' '+teamsID[(i+2)% teamsName.length]
+                teamsCell4.appendChild(inputElement);
+
+                var row = document.createElement("tr");
+                row.appendChild(timeCell);
+                row.appendChild(teamsCell);
+                row.appendChild(teamsCell2);
+                table.appendChild(row);
+
+                startTime = addMinutes(startTime, 15);
+            }
         }
 
         // 辅助函数：将时间增加指定分钟数

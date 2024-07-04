@@ -236,13 +236,13 @@
                     var game=scoresBox[j].id[1]
                     var antiColor=color=="R"?"B":"R"
                     var enemyScore=document.querySelector("#"+antiColor+game).value
-                    // console.log(mineScore,enemyScore)                    
+                    console.log(mineScore,enemyScore)                    
                     if(parseInt(mineScore)>parseInt(enemyScore)){
                         // console.log('win')
                         scoreCell.style.backgroundColor = '#ffff00';
                         winLose+=3
                         winSum+=parseInt(mineScore)
-                    }else if(mineScore==enemyScore){
+                    }else if(parseInt(mineScore)==parseInt(enemyScore)){
                         scoreCell.style.backgroundColor = '#ddffdd';
                         winLose+=1
                     }
