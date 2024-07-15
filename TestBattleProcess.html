@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Challenge Battle</title>
+    <style>
+        body {
+            font-family: "Courier New", monospace;
+        }
+        /* CSS样式用于布局 */
+        /* body {
+            display: flex;
+            justify-content: space-between;
+        } */
+
+        /* #textInputsContainer {
+            flex-grow: 1; 
+            padding: 10px;
+        } */
+
+        table {
+            border-collapse: collapse;
+            margin-right: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        /* th, td {
+            padding: 5px;
+        } */
+    </style>
+</head>
+<body>
+    <h2>Challenge資格賽 對陣表產生器</h2>
+    <label for="numberInput">一.請輸入隊伍總數：</label><br>
+    <input type="number" id="numberInput" value="18">
+    <br>
+    <button onclick="generateTextInputs()">產出隊伍框</button>
+    <br><br>
+    <label for="numberInput">二.請輸入隊伍名稱：</label>
+    <div id="textInputsContainer"></div>
+    
+    <button id="pasteName">貼上隊伍名</button>
+    <button onclick="getValues()">產出對陣表</button>
+    <p id="output"></p>
+    
+    <label for="numberInput">三.依序出戰並輸入成績：</label>
+    <table>
+        <thead>
+            <tr>
+                <th>時間</th>
+                <th style="background-color: #ffaaaa;">紅左</th>
+                <th style="background-color: #ffaaaa;">紅右</th>
+                
+                <th style="background-color: #aaaaff;">藍左</th>
+                <th style="background-color: #aaaaff;">藍右</th>
+                <th style="background-color: #ffaaaa;">紅方得分</th>
+                <th style="background-color: #aaaaff;">藍方得分</th>
+            </tr>
+        </thead>
+        <tbody id="table1">
+            <!-- 这里可以添加表格内容 -->
+        </tbody>
+    </table>
+    <button id="pasteScore">貼上全體成績</button>
+    <button onclick="randomScore()">隨機給分數(測試用)</button>
+    <button onclick="ranking()">決選晉級隊伍</button>
+
+    <br><br>
+    <label for="numberInput">四.確認成績</label>
+    <table>
+        <thead>
+            <tr>
+                <th>隊伍</th>
+                <th>第一場</th>
+                <th>第二場</th>
+                <th>第三場</th>
+                <th>第四場</th>
+                <th>勝負分</th>
+                <th>總淨勝分</th>
+                <th>總得分</th>
+                <th>單場最高分</th>
+                <th>名次</th>
+            </tr>
+        </thead>
+        <tbody id="table2">
+            <!-- 这里可以添加表格内容 -->
+        </tbody>
+    </table>
+
+    <script>
+        var teamsName=[],teamsID=[]
+        var totalTeamNumber=0 // 總隊伍數
+        function generateTextInputs() {
+            var inputElement = document.getElementById("numberInput");
+            var inputValue = parseInt(inputElement.value);
+            totalTeamNumber = parseInt(inputElement.value)
+            var textInputsContainer = document.getElementById("textInputsContainer");
+            textInputsContainer.innerHTML = "";
+            teamsName=[],teamsID=[]
+
+            for (var i = 0; i < inputValue; i++) {
+                var label = document.createElement("label");
+                label.textContent = String.fromCharCode((65 + i)>90?71 + i:65 + i) + ".";
+                // label.style.fontFamily = "Courier New, monospace"
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.value = String.fromCharCode((65 + i)>90?71 + i:65 + i) + "隊"
+                input.style.fontFamily = "Courier New, monospace"
+                input.id=String.fromCharCode((65 + i)>90?71 + i:65 + i)
+                input.className="name"
+
+                textInputsContainer.appendChild(label);
+                textInputsContainer.appendChild(input);
+                textInputsContainer.appendChild(document.createElement("br"));
+
+                teamsName.push(input.value)
+            }
+            // console.log(teamsName)
+        }
+        generateTextInputs()
+
+        console.log(textInputsContainer)
+
+        function getValues() {
+            var textInputs = document.querySelectorAll("#textInputsContainer input[type='text']");
+            var output = document.getElementById("output");
+
+            teamsName = [],teamsID=[];
+
+            textInputs.forEach(function(input) {
+                teamsName.push(input.value);
+                teamsID.push(input.id)
+            });
+            console.log(teamsID)
+
+            
+            var table = document.querySelector("#table1");
+            console.log(table)
+            table.innerHTML = "";
+
+            var inputElement = document.getElementById("numberInput");
+            var inputValue = parseInt(inputElement.value);
+            var startTime = "10:00";
+            // part 1
+            for (var i = 0; i < inputValue; i++) {
+                var timeCell = document.createElement("td");
+                timeCell.textContent = startTime + " ~ " + addMinutes(startTime, 15);
+
+                // 填入紅隊隊名
+                var teamsCell1 = document.createElement("td");
+                teamsCell1.style.backgroundColor = '#ffdddd';
+                teamsCell1.textContent = teamsName[i % teamsName.length];
+                var teamsCell2 = document.createElement("td");
+                teamsCell2.style.backgroundColor = '#ffdddd';
+                teamsCell2.textContent = teamsName[(i+7)% teamsName.length];
+                
+                // 填入藍隊隊名
+                var teamsCell3 = document.createElement("td");
+                teamsCell3.style.backgroundColor = '#ddddff';
+                teamsCell3.textContent = teamsName[(i+2)% teamsName.length];
+                var teamsCell4 = document.createElement("td");
+                teamsCell4.style.backgroundColor = '#ddddff';
+                teamsCell4.textContent = teamsName[(i+4)% teamsName.length];
+
+                // 建立分數輸入框
+                var teamsCell5 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.className="score "+teamsID[i % teamsName.length]+' '+teamsID[(i+7)% teamsName.length]
+                inputElement.id='R'+(i+1)
+                inputElement.style.width = "80px";
+                inputElement.style.backgroundColor = '#ffdddd';
+                teamsCell5.appendChild(inputElement);
+                var teamsCell6 = document.createElement("td");
+                var inputElement = document.createElement("input");
+                inputElement.className="score "+teamsID[(i+2) % teamsName.length]+' '+teamsID[(i+4)% teamsName.length]
+                inputElement.id='B'+(i+1)
+                inputElement.style.width = "80px";
+                inputElement.style.backgroundColor = '#ddddff';
+                teamsCell6.appendChild(inputElement);
+
+                var row = document.createElement("tr");
+                row.appendChild(timeCell);
+                row.appendChild(teamsCell1);
+                row.appendChild(teamsCell2);
+                row.appendChild(teamsCell3);
+                row.appendChild(teamsCell4);
+                row.appendChild(teamsCell5);
+                row.appendChild(teamsCell6);
+                table.appendChild(row);
+
+                startTime = addMinutes(startTime, 15);
+            }
+
+        }
+
+        // 辅助函数：将时间增加指定分钟数
+        function addMinutes(time, minutes) {
+            var parts = time.split(":");
+            var hours = parseInt(parts[0]);
+            var mins = parseInt(parts[1]);
+
+            mins += minutes;
+            hours += Math.floor(mins / 60);
+            mins %= 60;
+
+            var hoursStr = hours.toString().padStart(2, "0");
+            var minsStr = mins.toString().padStart(2, "0");
+
+            return hoursStr + ":" + minsStr;
+        }
+
+        function ranking(){
+            var table = document.querySelector("#table2");
+            table.innerHTML = "";
+            rankList=[]
+            for(var i = 0; i < teamsID.length; i++){
+                var row = document.createElement("tr");
+                var Cell1 = document.createElement("td");
+                Cell1.textContent = teamsName[i];
+                // console.log(teamsID[i])
+                scoresBox=document.querySelectorAll('.'+teamsID[i])
+                row.appendChild(Cell1);
+                var winLose=0
+                var winSum=0
+                var allSum=0
+                var maxScore=0
+                var fake=0
+                for(var j = 0; j < 4; j++){
+                    var mineScore=scoresBox[j].value
+                    var scoreCell = document.createElement("td");
+                    scoreCell.textContent=mineScore
+                    var color=scoresBox[j].id[0]
+                    var game=scoresBox[j].id.match(/\d+/)[0]
+                    var antiColor=color=="R"?"B":"R"
+                    var enemyScore=document.querySelector("#"+antiColor+game).value
+                    console.log(mineScore,enemyScore,scoresBox[j].id)                    
+                    if(parseInt(mineScore)>parseInt(enemyScore)){
+                        console.log('win')
+                        scoreCell.style.backgroundColor = '#ffff00';
+                        winLose+=3
+                        winSum+=parseInt(mineScore)
+                    }else if(parseInt(mineScore)==parseInt(enemyScore)){
+                        scoreCell.style.backgroundColor = '#ddffdd';
+                        winLose+=1
+                    }
+                    if(parseInt(mineScore)>parseInt(maxScore)){maxScore=mineScore}
+                    allSum+=parseInt(mineScore)
+                    
+                    row.appendChild( scoreCell);
+                }
+                var Cell2 = document.createElement("td");
+                Cell2.textContent =winLose;
+                var Cell3 = document.createElement("td");
+                Cell3.textContent =winSum;
+                var Cell4 = document.createElement("td");
+                Cell4.textContent =allSum;
+                var Cell5 = document.createElement("td");
+                Cell5.textContent = maxScore;
+                var rankCell = document.createElement("td");
+                rankCell.className='rank'
+
+                fake=parseInt(winLose)*1000000000+parseInt(winSum)*1000000+parseInt(allSum)*1000+parseInt(maxScore)
+                rankList.push(fake)
+                row.appendChild(Cell2);
+                row.appendChild(Cell3);
+                row.appendChild(Cell4);
+                row.appendChild(Cell5);
+                row.appendChild(rankCell);
+                table.appendChild(row);
+            }
+            console.log(rankList)
+
+            // 使用slice()方法复制原始数组
+            var sortedNumbers = rankList.slice(0);
+            // console.log(sortedNumbers)
+            // 对数组进行从高到低的排序
+            sortedNumbers.sort(function(a, b) {
+            return b - a;
+            });
+            console.log(sortedNumbers)
+
+            // 填入排名
+            var promotedNumber=0
+            console.log(totalTeamNumber)
+            if(totalTeamNumber>11){promotedNumber=8}
+            if(totalTeamNumber>31){promotedNumber=16}
+            if(totalTeamNumber>64){promotedNumber=32}
+            if(totalTeamNumber>120){promotedNumber=64}
+
+
+
+            var ranking = [];
+            var rankplace = document.querySelectorAll('.rank')
+            for (var i = 0; i < rankList.length; i++) {
+                var index = sortedNumbers.indexOf(rankList[i]) + 1;
+                ranking.push(index);
+                rankplace[i].textContent=index
+                console.log(promotedNumber)
+                if(index<=promotedNumber){rankplace[i].style.backgroundColor='#ff00ff'}
+            }
+            console.log(ranking)
+        }
+
+        function randomScore(){
+            var scores = document.querySelectorAll('.score')
+            scores.forEach(function(input) {
+                input.value=Math.ceil(Math.random() * 10)
+            });
+
+        }
+
+
+            // 获取按钮的引用
+            const pasteNameButton = document.getElementById("pasteName");
+
+        // 添加按钮点击事件监听器
+        pasteNameButton.addEventListener("click", async function() {
+
+            const clipboardText = await navigator.clipboard.readText();
+            
+            // 将读取的文本数据放入相应的输入框或处理数据
+            console.log("从剪贴板中读取的数据：", clipboardText);
+            nameBox=document.querySelectorAll('.name')
+
+            for(var i=0;i<nameBox.length;i++){
+                nameBox[i].value=clipboardText.split("\n")[i]
+            }
+
+
+        });
+
+
+            // 获取按钮的引用
+    const pasteScoreButton = document.getElementById("pasteScore");
+
+    // 添加按钮点击事件监听器
+    pasteScoreButton.addEventListener("click", async function() {
+
+        const clipboardText = await navigator.clipboard.readText();
+        
+        // 将读取的文本数据放入相应的输入框或处理数据
+        console.log("从剪贴板中读取的数据：", clipboardText);
+        scoreTimeBox=document.querySelectorAll('.score')
+        console.log(scoreTimeBox)
+
+        console.log(clipboardText.split(/\r\n|\t/))
+        for(var i=0;i<scoreTimeBox.length;i++){
+            scoreTimeBox[i].value=clipboardText.split(/\r\n|\t/)[i]
+        }
+
+
+    });
+
+    </script>
+</body>
