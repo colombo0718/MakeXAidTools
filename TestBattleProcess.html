@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-    <h2>Challenge資格賽 對陣表產生器</h2>
+    <h2>資格賽 對陣表產生器</h2>
     <label for="numberInput">一.請輸入隊伍總數：</label><br>
     <input type="number" id="numberInput" value="18">
     <br>
@@ -286,6 +286,7 @@
             var promotedNumber=0
             console.log(totalTeamNumber)
             if(totalTeamNumber>11){promotedNumber=8}
+            promotedNumber=8
             if(totalTeamNumber>31){promotedNumber=16}
             if(totalTeamNumber>64){promotedNumber=32}
             if(totalTeamNumber>120){promotedNumber=64}
